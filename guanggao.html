@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{margin:0;padding:0;}
+	#gKou{
+		width: 206px;
+	    height: 220px;
+	    position: absolute;
+	    z-index: 9999;
+	    background: #050A0A;
+	}
+	.show{
+		display: block;
+		text-align: center;
+		list-style: 40px;
+		width: 20px;
+		height: 20px;
+		background: rgba(0,0,0,0.4);
+		color: #fff;
+		float: right;
+		margin-top: 3px;
+		margin-right: 5px;
+	}
+	.show:hover{
+		background: rgba(0,0,0,0.9);
+	}
+	#gKou p:first-child{
+		width: 100%;
+	    height: 30px;
+	    background: rgba(241, 30, 98, 0.85);
+	}
+	#gKou a{
+		display: block;
+		
+	} 	
+	#gKou_test{
+		position: absolute;
+		bottom: 0;
+		z-index: 33;
+		width: 100%;
+		height: 30px;
+		background: rgba(0,0,0,0.4);
+		font-size: 12px;
+		text-align: center;
+		color: #fff;
+		line-height: 30px;
+	}
+	#gKou-img img{
+		width: 180px;
+    height: 180px;
+    display: block;
+    margin: 10px auto 0;
+	}
+	</style>
+</head>
+<body>
+	<div id="gKou">
+		<p><span class="show">X</span></p>
+		<a href="#">
+			<div id="gKou-img">
+				<img src="./img/news11.png" alt="">
+				<p id="gKou_test">
+					新浪之漫画册之一
+				</p>
+			</div>
+		</a>
+	</div>
+</body>
+<script>
+	var gKou =  document.getElementById('gKou');
+	var show = document.getElementsByClassName('show')[0];
+	console.log(show);
+	var gKouImg  = document.getElementById('gKou-img');
+
+	// 设置步经
+	var stepX = 1;
+	var stepY = 1;
+	var run;
+
+	function autoRun(){
+		if (run) {
+			return;
+		}
+
+		run = setInterval(function(){
+			var cW = document.documentElement.clientWidth;
+			var cH = document.documentElement.clientHeight;
+
+			var newLeft =  gKou.offsetLeft + stepX;
+			var newTop =  gKou.offsetTop + stepY;
+			if (newLeft>=(cW - gKou.offsetWidth)) {
+				newLeft = cW - gKou.offsetWidth;
+				stepX *= -1;
+			}
+
+			if (newLeft <= 0) {
+				newLeft = 0;
+				stepX *= -1;
+			}
+
+			if (newTop >= (cH - gKou.offsetHeight)){ newTop = cH - gKou.offsetHeight;
+				stepY *= -1;
+			}
+			if (newTop <= 0) {
+				newTop = 0;
+				stepY *= -1;
+			}
+
+			gKou.style.left = newLeft + 'px';
+			gKou.style.top = newTop +'px';
+		},5);
+	}
+	autoRun();
+	gKou.onmouseover =  function(){
+		clearInterval(run);
+		run = undefined;
+	}
+	gKou.onmouseout =  function(){
+		autoRun();
+	}
+	show.onclick =  function(){
+		gKou.style.display = 'none';
+	}
+</script>
+</html>
